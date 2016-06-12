@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.example.romina.fufogranja.model.Fruit;
@@ -18,16 +19,18 @@ public class FruitListActivity extends AppCompatActivity implements FruitListFra
     @Nullable
     @Bind(R.id.frameLayout)
     View frameLayout;
+    private static final String LOG_TAG = "FruitListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d(LOG_TAG,"onCreate");
         ButterKnife.bind(this);
     }
 
     public void showFruitDetail(Fruit fruit) {
+        Log.d(LOG_TAG,"showFruitDetail");
         if (frameLayout != null) {
             // Estoy en large-land
             FruitDetailFragment fruitDetailFragment = FruitDetailFragment.newInstance(fruit.getId());
