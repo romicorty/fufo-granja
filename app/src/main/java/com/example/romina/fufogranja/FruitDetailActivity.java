@@ -10,13 +10,14 @@ import android.util.Log;
 public class FruitDetailActivity extends AppCompatActivity{
 
     public static final String EXTRA_FRUIT_ID = "FruitId";
+    private static final String LOG_TAG = "FruitDetailActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fruit_detail);
         String id = getIntent().getStringExtra(EXTRA_FRUIT_ID);
-        Log.d("FruitDetailActivity","onCreate");
+        Log.d(LOG_TAG,"onCreate");
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.frameLayout);
