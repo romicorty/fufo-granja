@@ -8,7 +8,6 @@ import java.io.Serializable;
  * Created by romina on 08/03/16.
  */
 public class Fruit implements Serializable{
-    @SerializedName()
     private String id;
     private String title;
     private String description;
@@ -42,7 +41,7 @@ public class Fruit implements Serializable{
     }
 
     public String getDescription() {
-        return description;
+        return title + " " + description;
     }
 
     public String getImgSmall() {
@@ -60,4 +59,5 @@ public class Fruit implements Serializable{
     public void setImgSmall(String imgSmall) {
         this.imgSmall = imgSmall;
     }
+
 }
