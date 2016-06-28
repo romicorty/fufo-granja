@@ -24,6 +24,7 @@ public class FruitListActivity extends AppCompatActivity implements FruitListFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Inyecto vistas
         ButterKnife.bind(this);
     }
 
