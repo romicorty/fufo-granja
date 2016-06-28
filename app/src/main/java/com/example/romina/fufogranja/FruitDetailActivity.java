@@ -23,6 +23,7 @@ public class FruitDetailActivity extends AppCompatActivity{
         Fragment fragment = fm.findFragmentById(R.id.frameLayout);
 
         if (fragment == null) {
+            Log.d(LOG_TAG,"Fragment is null");
             FruitDetailFragment fruitDetailFragment = FruitDetailFragment.newInstance(id);
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.frameLayout, fruitDetailFragment);
