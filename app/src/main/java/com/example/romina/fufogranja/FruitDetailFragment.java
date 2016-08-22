@@ -1,15 +1,28 @@
 package com.example.romina.fufogranja;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.romina.fufogranja.model.Fruit;
 import com.example.romina.fufogranja.network.FruitService;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,6 +42,15 @@ public class FruitDetailFragment extends FruitBaseFragment {
 
     @Bind(R.id.text_detail)
     TextView txt;
+
+    @Bind(R.id.btn_save_data)
+    Button btn_save;
+
+    @Bind(R.id.detail_imageView)
+    ImageView imageView;
+
+    @Bind(R.id.fruit_detail_container)
+    View fruitDetailContainer;
 
     private Fruit fruit;
 
@@ -60,7 +82,54 @@ public class FruitDetailFragment extends FruitBaseFragment {
 
         ButterKnife.bind(this, v);
 
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeScreenshot(fruitDetailContainer);
+            }
+        });
+
         return v; 
+    }
+
+    private void takeScreenshot(View v) {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+        try {
+            String mPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/micopia.jpg";
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            Bitmap bitmap = screenShot(v);
+           // imageView.setImageBitmap(bitmap);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            galleryAddPic(mPath);
+        }catch (IOException e){
+            String error = e.getMessage();
+            Log.e("FruitDetailFragment",error);
+        }
+
+    }
+
+    private void galleryAddPic(String photoPath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(photoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.getActivity().sendBroadcast(mediaScanIntent);
+    }
+
+
+    private Bitmap screenShot(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+                view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
     }
 
     @Override

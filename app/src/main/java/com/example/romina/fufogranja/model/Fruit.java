@@ -41,9 +41,7 @@ public class Fruit implements Serializable{
     }
 
     public String getDescription() {
-
-        return description;
-
+        return description.toUpperCase();
     }
 
     public String getImgSmall() {
